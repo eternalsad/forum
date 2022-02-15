@@ -1,9 +1,13 @@
 package repository
 
-import "database/sql"
+import (
+	"database/sql"
+	"forum/models"
+)
 
 type User interface {
-	CreateUser() error
+	CreateUser(*models.User) error
+	UserExists(*models.User) (bool, error)
 }
 
 type Repository struct {

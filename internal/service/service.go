@@ -1,7 +1,8 @@
 package service
 
 import (
-	"forum/intenal/repository"
+	"forum/internal/repository"
+	"forum/models"
 )
 
 type Service struct {
@@ -9,7 +10,7 @@ type Service struct {
 }
 
 type User interface {
-	CreateUser() error
+	CreateUser(*models.User) error
 }
 
 func NewService(repo *repository.Repository) *Service {
