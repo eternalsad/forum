@@ -10,7 +10,11 @@ import (
 // RenderRegister handles register endpoint
 func (handler *Handler) RenderRegister() http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		handler.t.Execute(w, "aboba")
+		// handler.t.Execute(w, "aboba")
+		err := handler.t.ExecuteTemplate(w, "main", "aboba")
+		if err != nil {
+			fmt.Println(err)
+		}
 	}
 }
 

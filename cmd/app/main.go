@@ -20,8 +20,10 @@ func main() {
 		return
 	}
 	files := []string{
+		"./templates/html/registration.html",
 		"./templates/html/main.html",
 	}
+	// ts := template.Must(template.ParseGlob("./templates/html"))
 	ts, err := template.ParseFiles(files...)
 	if err != nil {
 		log.Fatal("cannot parse templates")
@@ -33,8 +35,9 @@ func main() {
 	router := http.NewServeMux()
 	router.HandleFunc("/register", handler.RenderRegister())
 	router.HandleFunc("/registration", handler.Registration())
-	log.Print("starting server on: 8080")
-	err = http.ListenAndServe("localhost:8080", router)
+	router.HandleFunc("/", handler.RenderMain())
+	log.Print("starting server on: 8989")
+	err = http.ListenAndServe("localhost:8989", router)
 	if err != nil {
 		log.Fatal(err)
 	}
