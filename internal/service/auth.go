@@ -1,7 +1,6 @@
 package service
 
 import (
-	"fmt"
 	"forum/internal/repository"
 	"forum/models"
 )
@@ -18,13 +17,6 @@ func NewAuthService(repo *repository.Repository) *AuthService {
 }
 
 func (auth *AuthService) CreateUser(userData *models.User) error {
-	exists, err := auth.repo.UserExists(userData)
-	if err != nil {
-		return err
-	}
-	if exists {
-		return fmt.Errorf("such email has already been taken")
-	}
-	err = auth.repo.CreateUser(userData)
+	err := auth.repo.CreateUser(userData)
 	return err
 }

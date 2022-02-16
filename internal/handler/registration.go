@@ -18,30 +18,30 @@ func (handler *Handler) RenderRegister() http.HandlerFunc {
 	}
 }
 
-//
+// Registration goes brrr...
 func (handler *Handler) Registration() http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		fmt.Print("asd")
 		err := r.ParseForm()
 		if err != nil {
 			fmt.Println(err)
 			return
 		}
-		fmt.Println(r.Form)
+		// fmt.Println(r.Form)
 		userData, err := models.NewUser(r.Form)
 		if err != nil {
 			log.Println(err)
 			//should redirect user to a error page
 			return
 		}
-
 		err = handler.service.CreateUser(userData)
 		if err != nil {
 			// should redirect user to a error page
+			handler.t.ExecuteTemplate(w, "authentication", "sorry email has already been taken")
 			log.Println(err)
 			return
 		}
 		// otherwise what should be done???
 		// should redirect user to handler (handler *Handler)succesfull()
+		handler.t.ExecuteTemplate(w, "authentication", "success")
 	}
 }

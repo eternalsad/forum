@@ -19,6 +19,8 @@
 *.out
 # Environment variables
 *.env
+app
+.db
 # Dependency directories (remove the comment below to include it)
 # vendor/
 

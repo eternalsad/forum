@@ -4,6 +4,7 @@ import (
 	"database/sql"
 	"fmt"
 	"forum/models"
+	"log"
 )
 
 type AuthRepository struct {
@@ -11,8 +12,15 @@ type AuthRepository struct {
 }
 
 func (auth *AuthRepository) CreateUser(userData *models.User) error {
-	stmt := fmt.Sprintf("INSERT INTO users (username, email, password) VALUES ('%v', '%v', '%v');", userData.Username, userData.Email, userData.Password)
-	_, err := auth.db.Exec(stmt)
+	stmt, err := auth.db.Prepare("INSERT INTO users (username, email, password) VALUES(?, ?, ?)")
+	if err != nil {
+		return fmt.Errorf(err.Error() + "statement error")
+	}
+	_, err = stmt.Exec(userData.Username, userData.Email, userData.Password)
+	if err != nil {
+		log.Println(err.Error())
+		return fmt.Errorf("db: ", err.Error(), " username or email has already been taken")
+	}
 	return err
 }
 
@@ -36,6 +44,7 @@ func (auth *AuthRepository) UserExists(userData *models.User) (bool, error) {
 	err := rowNew.Scan(&emailFromDB)
 	fmt.Printf("emailFromDB: %v\n", emailFromDB)
 	if err != nil {
+		fmt.Println("huyhurma", err.Error())
 		return false, err
 	}
 	// return true, nil
