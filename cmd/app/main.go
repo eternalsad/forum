@@ -35,6 +35,7 @@ func main() {
 	router := http.NewServeMux()
 	router.HandleFunc("/register", handler.RenderRegister())
 	router.HandleFunc("/registration", handler.Registration())
+	router.HandleFunc("/login", handler.RenderLogin())
 	router.HandleFunc("/", handler.RenderMain())
 	log.Print("starting server on: 8989")
 	err = http.ListenAndServe("localhost:8989", router)

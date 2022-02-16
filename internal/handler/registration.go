@@ -2,6 +2,7 @@ package handler
 
 import (
 	"fmt"
+	"forum/config"
 	"forum/models"
 	"log"
 	"net/http"
@@ -36,7 +37,8 @@ func (handler *Handler) Registration() http.HandlerFunc {
 		err = handler.service.CreateUser(userData)
 		if err != nil {
 			// should redirect user to a error page
-			handler.t.ExecuteTemplate(w, "authentication", "sorry email has already been taken")
+			// handler.t.ExecuteTemplate(w, "authentication", "sorry email has already been taken")
+			handler.ErrorHandler(http.StatusForbidden, config.ErrorEmailTaken, "authentication", w)
 			log.Println(err)
 			return
 		}
