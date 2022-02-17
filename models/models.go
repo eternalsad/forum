@@ -2,6 +2,7 @@ package models
 
 import (
 	"fmt"
+	"forum/utils"
 	"reflect"
 )
 
@@ -17,6 +18,11 @@ func NewUser(form map[string][]string) (*User, error) {
 	user := &User{}
 	val := reflect.ValueOf(user).Elem()
 	num := val.NumField()
+	encrpyted, err := utils.HashPassword(form["password"][0])
+	if err != nil {
+		return nil, err
+	}
+	form["password"][0] = encrpyted
 	for i := 0; i < num; i++ {
 		fieldTag := val.Type().Field(i).Tag.Get("val")
 		formValue, ok := form[fieldTag]

@@ -8,3 +8,7 @@ func (handler *Handler) RenderLogin() http.HandlerFunc {
 		handler.t.ExecuteTemplate(w, "authentication", "")
 	}
 }
+
+func (handler *Handler) Login(w http.ResponseWriter, r *http.Request) {
+
+}
